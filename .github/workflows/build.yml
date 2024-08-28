@@ -26,7 +26,7 @@ jobs:
                   make install
             - name: Zip python
               run: |
-                7z a python.zip ./Python-3.11.9/python-build/*
+                7z a python.zip ./Python-3.11.9/python-build/*/*
                 ls -lh python.zip
             - name: Upload python
               uses: actions/upload-artifact@v3
