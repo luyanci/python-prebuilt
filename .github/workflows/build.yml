@@ -39,6 +39,6 @@ jobs:
               uses: softprops/action-gh-release@v1
               with:
                 tag_name: build
-                files: 
-                    - python.tar.gz
-                    - python.zip
+                files: |
+                   python.tar.gz
+                   python.zip
