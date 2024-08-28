@@ -27,7 +27,7 @@ jobs:
                   echo "$(pwd)/Python-3.11.9/python-build/bin" >> $GITHUB_PATH
             - name: Zip python
               run: |
-                7zip -a python.zip python-build
+                7zip -a python.zip ./Python-3.11.9/python-build
                 ls -lh python.zip
             - name: Upload python
               uses: actions/upload-artifact@v3
