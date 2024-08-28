@@ -18,7 +18,7 @@ jobs:
               run: |
                   cd Python-3.11.9
                   echo $(pwd)
-                  ./configure --prefix=$(pwd)/Python-3.11.9/python-build --with-ensurepip=install --enable-optimizations
+                  ./configure --prefix=$(pwd)/Python-3.11.9/python-build --with-ensurepip=install
                   echo build-path=$(pwd)/Python-3.11.9/python-build >> $GITHUB_ENV
             - name: make python
               run: |
@@ -28,10 +28,17 @@ jobs:
             - name: Zip python
               run: |
                 7z a python.zip ${{env.build-path}}
-                ls -lh python.zip
+                tar -czvf python.tar.gz ${{env.build-path}}
+                ls -lh python.*
             - name: Upload python
               uses: actions/upload-artifact@v3
               with:
                 name: python
-                path:  python.zip
-              
+                path:  python.tar.gz
+            - name: Release
+              uses: softprops/action-gh-release@v1
+              with:
+                tag_name: build
+                files: 
+                    - python.tar.gz
+                    - python.zip
