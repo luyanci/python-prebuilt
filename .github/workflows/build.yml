@@ -1,0 +1,32 @@
+name: Make Binary
+
+on:
+    workflow_dispatch:
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: get python source
+              run: wget https://www.python.org/ftp/python/3.11.9/Python-3.11.9.tgz -O python.tar.gz
+            - name: extract python source
+              run: tar -xvf python.tar.gz
+            - name: install dependencies
+              run: sudo apt-get install -y build-essential libncursesw5-dev libgdbm-dev libc6-dev zlib1g-dev libbz2-dev liblzma-dev libssl-dev libffi-dev
+            - name: configure python
+              run: ./configure --prefix=${pwd}/python-build --with-ensurepip=install --enable-optimizations
+            - name: make python
+              run: |
+                  make -j$(nproc)
+                  make install
+                  echo "${pwd}/python-build/bin" >> $GITHUB_PATH
+            - name: Zip python
+              run: |
+                7zip -a python.zip python-build
+                ls -lh python.zip
+            - name: Upload python
+              uses: actions/upload-artifact@v3
+              with:
+                name: python
+                path: python.zip
+              
