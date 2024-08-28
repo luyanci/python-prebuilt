@@ -19,6 +19,7 @@ jobs:
                   cd Python-3.11.9
                   echo $(pwd)
                   ./configure --prefix=$(pwd)/Python-3.11.9/python-build --with-ensurepip=install --enable-optimizations
+                  echo build-path=$(pwd)/Python-3.11.9/python-build >> $GITHUB_ENV
             - name: make python
               run: |
                   cd Python-3.11.9
@@ -33,5 +34,5 @@ jobs:
               uses: actions/upload-artifact@v3
               with:
                 name: python
-                path:  $(pwd)/Python-3.11.9/python-build/*
+                path:  ${{env.build-path}}
               
