@@ -14,12 +14,15 @@ jobs:
             - name: install dependencies
               run: sudo apt-get install -y build-essential libncursesw5-dev libgdbm-dev libc6-dev zlib1g-dev libbz2-dev liblzma-dev libssl-dev libffi-dev
             - name: configure python
-              run: ./configure --prefix=${pwd}/python-build --with-ensurepip=install --enable-optimizations
+              run: |
+                  cd Python-3.11.9
+                  ./configure --prefix=${pwd}/../python-build --with-ensurepip=install --enable-optimizations
             - name: make python
               run: |
+                  cd Python-3.11.9
                   make -j$(nproc)
                   make install
-                  echo "${pwd}/python-build/bin" >> $GITHUB_PATH
+                  echo "${pwd}/../python-build/bin" >> $GITHUB_PATH
             - name: Zip python
               run: |
                 7zip -a python.zip python-build
