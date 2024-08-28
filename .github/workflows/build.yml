@@ -26,13 +26,12 @@ jobs:
                   make -j$(nproc)
                   make install
             - name: Zip python
-              if: false
               run: |
-                7z a python.zip ./Python-3.11.9/python-build/*/*
+                7z a python.zip ${{env.build-path}}
                 ls -lh python.zip
             - name: Upload python
               uses: actions/upload-artifact@v3
               with:
                 name: python
-                path:  ${{env.build-path}}
+                path:  python.zip
               
