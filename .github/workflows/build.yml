@@ -7,6 +7,7 @@ jobs:
     build:
         runs-on: ubuntu-latest
         steps:
+            - uses: actions/checkout@v3
             - name: get python source
               run: wget https://www.python.org/ftp/python/3.11.9/Python-3.11.9.tgz -O python.tar.gz
             - name: extract python source
@@ -16,6 +17,7 @@ jobs:
             - name: configure python
               run: |
                   cd Python-3.11.9
+                  echo $(pwd)
                   ./configure --prefix=${pwd}/Python-3.11.9/python-build --with-ensurepip=install --enable-optimizations
             - name: make python
               run: |
