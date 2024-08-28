@@ -16,13 +16,13 @@ jobs:
             - name: configure python
               run: |
                   cd Python-3.11.9
-                  ./configure --prefix=${pwd}/python-build --with-ensurepip=install --enable-optimizations
+                  ./configure --prefix=${pwd}/Python-3.11.9/python-build --with-ensurepip=install --enable-optimizations
             - name: make python
               run: |
                   cd Python-3.11.9
                   make -j$(nproc)
                   make install
-                  echo "${pwd}/python-build/bin" >> $GITHUB_PATH
+                  echo "${pwd}/Python-3.11.9/python-build/bin" >> $GITHUB_PATH
             - name: Zip python
               run: |
                 7zip -a python.zip python-build
