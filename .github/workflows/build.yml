@@ -2,27 +2,34 @@ name: Make Binary
 
 on:
     workflow_dispatch:
+      inputs:
+        python_version:
+          type: string
+          default: "3.11.9"
+          description: Python version to build
 
 jobs:
     build:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
+            - name: get build date
+              run: echo "build-date=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
             - name: get python source
-              run: wget https://www.python.org/ftp/python/3.11.9/Python-3.11.9.tgz -O python.tar.gz
+              run: wget https://www.python.org/ftp/python/${{inputs.python_version}}/Python-${{inputs.python_version}}.tgz -O python.tar.gz
             - name: extract python source
               run: tar -xvf python.tar.gz
             - name: install dependencies
               run: sudo apt-get install -y build-essential libncursesw5-dev libgdbm-dev libc6-dev zlib1g-dev libbz2-dev liblzma-dev libssl-dev libffi-dev
             - name: configure python
               run: |
-                  cd Python-3.11.9
+                  cd Python-${{inputs.python_version}}}
                   echo $(pwd)
-                  ./configure --prefix=$(pwd)/Python-3.11.9/python-build --with-ensurepip=install
-                  echo build-path=$(pwd)/Python-3.11.9/python-build >> $GITHUB_ENV
+                  ./configure --prefix=$(pwd)/Python-${{inputs.python_version}}/python-build --with-ensurepip=install
+                  echo build-path=$(pwd)/Python-${{inputs.python_version}}/python-build >> $GITHUB_ENV
             - name: make python
               run: |
-                  cd Python-3.11.9
+                  cd Python-${{inputs.python_version}}
                   make -j$(nproc)
                   make install
             - name: Zip python
@@ -34,11 +41,11 @@ jobs:
               uses: actions/upload-artifact@v3
               with:
                 name: python
-                path:  python.tar.gz
+                path:  python.*
             - name: Release
               uses: softprops/action-gh-release@v1
               with:
-                tag_name: build
+                tag_name: build-${{env.build-date}}
                 files: |
                    python.tar.gz
                    python.zip
