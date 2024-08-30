@@ -23,7 +23,7 @@ jobs:
               run: sudo apt-get install -y build-essential libncursesw5-dev libgdbm-dev libc6-dev zlib1g-dev libbz2-dev liblzma-dev libssl-dev libffi-dev
             - name: configure python
               run: |
-                  cd Python-${{inputs.python_version}}}
+                  cd Python-${{inputs.python_version}}
                   echo $(pwd)
                   ./configure --prefix=$(pwd)/Python-${{inputs.python_version}}/python-build --with-ensurepip=install
                   echo build-path=$(pwd)/Python-${{inputs.python_version}}/python-build >> $GITHUB_ENV
