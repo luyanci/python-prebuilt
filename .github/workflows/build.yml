@@ -24,6 +24,7 @@ jobs:
             - name: extract python source
               run: tar -xvf python.tar.gz
             - name: install dependencies
+              if: ${{matrix.os == 'ubuntu-latest'}}
               run: sudo apt-get install -y build-essential libncursesw5-dev libgdbm-dev libc6-dev zlib1g-dev libbz2-dev liblzma-dev libssl-dev libffi-dev
             - name: configure python
               run: |
