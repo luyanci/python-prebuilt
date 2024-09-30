@@ -44,7 +44,7 @@ jobs:
             - name: Upload python
               uses: actions/upload-artifact@v3
               with:
-                name: python
+                name: python-${{matrix.os}}
                 path:  python.*
             - name: Release
               uses: softprops/action-gh-release@v1
