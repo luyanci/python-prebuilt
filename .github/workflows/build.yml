@@ -49,6 +49,6 @@ jobs:
             - name: Release
               uses: softprops/action-gh-release@v1
               with:
-                tag_name: build-${{env.build-date}}
+                tag_name: Python-v${{inputs.python_version}}-${{env.build-date}}.${{github.run_number}}
                 files: |
                    python-${{ runner.os }}-${{ runner.arch }}.zip
