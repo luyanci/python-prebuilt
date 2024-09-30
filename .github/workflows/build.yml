@@ -39,8 +39,7 @@ jobs:
                   make install
             - name: Zip python
               run: |
-                7z a python.zip ${{env.build-path}}
-                tar -czvf python.tar.gz ${{env.build-path}}
+                7z a python-${{ runner.os }}-${{ runner.arch }}.zip ${{env.build-path}}
                 ls -lh python.*
             - name: Upload python
               uses: actions/upload-artifact@v3
@@ -52,5 +51,4 @@ jobs:
               with:
                 tag_name: build-${{env.build-date}}
                 files: |
-                   python.tar.gz
-                   python.zip
+                   python-${{ runner.os }}-${{ runner.arch }}.zip
